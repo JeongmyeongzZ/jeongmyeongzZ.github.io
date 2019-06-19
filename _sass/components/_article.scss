@@ -30,6 +30,7 @@
 .c-article__title {
     @include fs--heading-1;
     color: $c-base__02;
+    font-family: 'Nanum Myeongjo', serif;
 }
 
 .c-article__time {
