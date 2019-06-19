@@ -8,7 +8,7 @@ permalink: /about/
 </div>
 	
 <div style="margin-bottom: 100px;display:inline-block;width:50%;float:left;">
-    <h4>Skills</h4>
+    <h4 style="margin:12px 0;">Skills</h4>
     - HTML, CSS, JAVASCRIPT<br>
     - PHP, Laravel
     <h4>Experience</h4>
