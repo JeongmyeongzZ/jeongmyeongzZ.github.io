@@ -48,6 +48,7 @@
 
     h2 {
         @include fs--heading-2;
+        font-family: 'Nanum Myeongjo', serif;
     }
 
     h3 {
@@ -78,7 +79,10 @@
     ol {
         margin-left: 2.1rem;
     }
-    
+
+    p {
+        font-family: 'Nanum Gothic', sans-serif;
+    }
 }
 
 .c-article__footer {
