@@ -3,6 +3,6 @@ layout: page
 title: About
 permalink: /about/
 ---
-Talk about yourself.
+<div class="profile-img" style="background-image:url('https://ifh.cc/g/tzxij.jpg')"></div>
 
 
