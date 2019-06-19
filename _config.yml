@@ -1,15 +1,15 @@
 # Site settings
 title: Jungmyung, Web Developer
 description: >
-
+    ~ 2019 History
 author: Kim Jungmyung
-email: your@e.mail
+email: kimbym23@gmail.com
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://jungmyungzZ.github.io" # the base hostname & protocol for your site
-twitter_username: YourTwitter
-github_username:  YourGitHub
+facebook_username: 100017805346667
+github_username:  jungmyungzZ
 
-disqus_shortname: YourDisqusShortname
+disqus_shortname: jungmyung
 
 # Build settings
 include: [_pages]
