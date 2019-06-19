@@ -1,11 +1,11 @@
 # Site settings
-title: Your site
+title: Jungmyung, Web Developer
 description: >
-    Your description
-author: Your name
+
+author: Kim Jungmyung
 email: your@e.mail
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://yourname.github.io" # the base hostname & protocol for your site
+url: "https://jungmyungzZ.github.io" # the base hostname & protocol for your site
 twitter_username: YourTwitter
 github_username:  YourGitHub
 
