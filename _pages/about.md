@@ -11,7 +11,7 @@ permalink: /about/
     <h4 style="margin:12px 0;">Skills</h4>
     - HTML, CSS, JAVASCRIPT<br>
     - PHP, Laravel
-    <h4>Experience</h4>
+    <h4 style="margin:12px 0;">Experience</h4>
     Airteltour<br>
     ~ 2019/04
 </div>
