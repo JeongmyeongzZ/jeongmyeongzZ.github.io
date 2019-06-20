@@ -9,7 +9,7 @@ url: "https://jungmyungzZ.github.io" # the base hostname & protocol for your sit
 facebook_username: 100017805346667
 github_username:  jungmyungzZ
 
-disqus_shortname: jungmyung
+disqus_shortname: jungmyung-me
 
 # Build settings
 include: [_pages]
