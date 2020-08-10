@@ -76,4 +76,4 @@ Repository, (transformer, view model)[fractal], request dto, model, controller, 
 
 - 라라벨 6, 7 번역 기여 (담당페이지)
 
-- docker, jenkins (ci, cd), aws, ses, sentry
+- docker, jenkins (ci, cd), aws, ses, sentry, zeplin, jira 
