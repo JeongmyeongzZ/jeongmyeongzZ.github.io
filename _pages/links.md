@@ -41,6 +41,7 @@ git version, apm version, docker
 
   
 1. 페이지 유지보수
+컨트롤러 분리
 
 
 - 펀인 (호텔) (20.01 ~ 20.06) (팀원 3) (serverless)

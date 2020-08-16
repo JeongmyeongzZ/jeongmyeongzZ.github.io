@@ -7,5 +7,11 @@
 	{% if page.layout != 'amp' %}
 	</br>
 	{% endif %}
-	<p>Follow me on: {% if site.email %}<a href="mailto:{{ site.email }}">Mail</a> & {% endif %}{% if site.facebook_username %}<a href="https://facebook.com/{{ site.facebook_username }}">Facebook</a>{% endif %}{% if site.facebook_username %}{% if site.github_username %} & {% endif %}{% endif %}{% if site.github_username %}<a href="https://github.com/{{ site.github_username }}">Github</a>{% endif %}</p>
+	<p>
+		Follow me on:
+		{% if site.email %}<a href="mailto:{{ site.email }}">Mail</a> & {% endif %}
+		{% if site.facebook_username %}<a href="https://facebook.com/{{ site.facebook_username }}">Facebook</a> & {% endif %}
+		{% if site.github_username %}<a href="https://github.com/{{ site.github_username }}">Github</a> & {% endif %}
+		{% if site.linkedin_username %}<a href="https://www.linkedin.com/in/{{ site.linkedin_username }}">LinkedIn</a>{% endif %}
+	</p>
 </footer>
