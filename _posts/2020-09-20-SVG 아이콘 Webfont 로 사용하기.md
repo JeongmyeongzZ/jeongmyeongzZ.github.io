@@ -24,7 +24,6 @@ date:   2020-09-20 00:40:12
 
 - 애니메이션 효과를 CSS3 등을 통해 적용할 수 있다. 
 
-
 ![vector-raster](../assets/vectore-raster.png)
 
 __출처 https://junojunho.com/front-end/svg-icon__
@@ -57,6 +56,58 @@ __출처 https://junojunho.com/front-end/svg-icon__
 
 `npm install --save-dev webfonts-generator`
 
+vue, react, angular 등의 환경의 경우 `/build/webfont-loader.js` 파일을 생성한다. __필자는 라라벨 환경 프로젝트에서 작업했으며, webpack.mix.js 파일에 해당 스크립트를 넣었다.__
 
+![bed](../assets/bed.svg) 해당 파일을 사용해보자.
+
+```js
+const webfontsGenerator = require('webfonts-generator');
+
+webfontsGenerator({
+    files: [
+        'public/images/icons/bed.svg',
+    ],
+    dest: 'public/fonts/my-icons/', // 만들어질 폰트 경로
+    fontName: 'my-icons', // 만들어질 파일명
+    html: true, // html 프리뷰 생성
+    templateOptions: {
+        baseSelector: '.my-icon', // 기본 클래스
+        classPrefix: 'my-icon-' // 기본 클래스와 함께 쓰여질 클래스명
+    }
+}, function(error) {
+    // something with error
+})
+```
+이제 생성 된 `my-icons.css` 파일을 살펴보면 아래와 같은 파일이 생성되었을 것이다. 우리는 이제 이를 활용하면 된다.
+
+해당 CSS 파일을 import 해 사용해보도록 하자.
+
+```css
+@font-face {
+	font-family: "my-icons";
+	src: url("my-icons.eot?56e598c3eae167236641b7cbca5cdcc1?#iefix") format("embedded-opentype"),
+    url("my-icons.woff2?56e598c3eae167236641b7cbca5cdcc1") format("woff2"),
+    url("my-icons.woff?56e598c3eae167236641b7cbca5cdcc1") format("woff");
+}
+
+.my-icon {
+	line-height: 1;
+}
+
+.my-icon:before {
+	font-family: my-icons !important;
+	font-style: normal;
+	font-weight: normal !important;
+	vertical-align: top;
+}
+
+.my-icon-a_icon:before {
+	content: "\f101";
+}
+```
+
+페이지에 정상적으로 노출되는 것을 확인할 수 있다 !
+
+![bed](../assets/bed-result.svg) 
 
 <br><br><br>
