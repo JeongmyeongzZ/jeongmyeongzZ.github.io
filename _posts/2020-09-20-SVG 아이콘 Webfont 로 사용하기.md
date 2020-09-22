@@ -54,7 +54,7 @@ _출처 https://junojunho.com/front-end/svg-icon_
 
 필자는 매번 새로 수정되고, 추가되는 아이콘들을 매번 어떤 플랫폼을 통해 변환하고, 해당 폰트들을 다시 옮기는 번거로운 작업이 아닌, 프로젝트 내에 일련의 경로에 있는 아이콘들을 빌드마다 변환을 자동화 시켜보고 싶었다.
  
- <br><br><br>
+<br><br>
  
 ## Webfont generator
 
