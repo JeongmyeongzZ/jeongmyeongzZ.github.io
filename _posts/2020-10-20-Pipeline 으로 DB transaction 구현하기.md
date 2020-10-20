@@ -7,18 +7,26 @@ date:   2020-10-20 00:40:12
 반복되는 일련의 작업, Aspect.. etc.. 
  
 ```php
-$pipes = [
-            UseDatabaseTransaction::class,
-            FirstService::class,
-            SecondService::class,
-        ];
+$this->dispatcher->pipeThrough([
+    UseDatabaseTransaction::class,
+    FirstService::class,
+    SecondService::class,
+])->dispatch(new SomeJob(['title' => '제목입니다', 'contents' => '내용입니다']));
 
-        $post = app(Pipeline::class)
-            ->send($something)
-            ->through($pipes)
-            ->then(function ($content) {
-                return $content;
-            });
+$this->job->dispatch(['title' => '제목입니다', 'contents' => '내용입니다']);
+
+$pipes = [
+    UseDatabaseTransaction::class,
+    FirstService::class,
+    SecondService::class,
+];
+
+$post = app(Pipeline::class)
+    ->send($this->something)
+    ->through($pipes)
+    ->then(function ($content) {
+        return $content;
+    });
 ```
 
 
