@@ -179,7 +179,7 @@ class ArticleBuilder {
 
 ```php
 
-$article = (new ArticleBuilder('title', 'content'))->setSubTitle('sub title ..')->create();
+$article = (new ArticleBuilder('title', 'content'))->setSubTitle('sub title ..')->build();
 
 ```
 
