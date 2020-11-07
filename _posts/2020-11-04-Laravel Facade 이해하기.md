@@ -12,6 +12,8 @@ Laravel 에서 사용하는 `Facade` 란 용어는 실제 Facade Pattern 과는 
 
 ## Facade Pattern
 
+---
+
 그렇다면 Facade Pattern 이란 무엇인지 간단하게 살펴보자.
 
 Facade Pattern 은 단순히 생각하면, 복잡한 코드를 실행시키는 간단하고 단순한 어댑터를 사용하는 방식이다.
@@ -41,15 +43,56 @@ function clientCode(A $classA)
 
 ## Proxy Pattern
 
+---
+
 그렇다면 프록시 패턴이란 무엇일까?
 
 > 실제 기능을 수행하는 객체(Real Object) 대신 가상의 객체(Proxy Object)를 사용해 로직의 흐름을 제어하는 디자인 패턴.
 
-보통 데이터를 캐싱할 때 많이 사용되는데, 간단하게 프록시 패턴을 알아보도록 하자.
+보통 데이터를 캐싱할 때 많이 사용되는데, 간단하게 코드와 함께 프록시 패턴을 알아보도록 하자.
+
+```php
+interface GetData {
+    public function get(int $id);
+}
+
+class GetSimpleData implements GetData {
+    public function get(int $id)
+    {
+        // find some data ..
+        return 'some data';
+    }
+}
+
+class GetCacheData implements GetData {
+    private GetSimpleData $getSimpleData;
+    public function __construct(GetSimpleData $getSimpleData) 
+    {
+        $this->getSimpleData = $getSimpleData;
+    }
+
+    public function get(int $id)
+    {
+        // if has cached data return cache data
+        return 'cached data';
+    
+        // if has not cached data   
+        return $this->getSimpleData->get();
+    }
+}
+```
+
+[Refactoring guru](https://refactoring.guru/design-patterns/proxy/php/example) 에 있는 코드를 참고해 간단한 예제를 만들었다. 위 코드는 인터페이스를 사용해본 PHP 사용자라면 쉽게 이해할 수 있을 것이다.
+
+위와 같이 프록시 패턴을 사용하면, 캐시된 데이터를 확인해 작업을 쉽게 분기처리 할 수 있다.
+
+<br>
+
+## Laravel 의 Facade
 
 ---
 
-Init
+그렇다면 라라벨에서의 Facade 란 어떤 식으로 동작하는 걸까?
 
 ```php
 some code block
