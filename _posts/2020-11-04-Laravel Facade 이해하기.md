@@ -94,12 +94,26 @@ class GetCacheData implements GetData {
 
 그렇다면 라라벨에서의 Facade 란 어떤 식으로 동작하는 걸까?
 
+라라벨 파사드는 컨테이너 내부의 서비스를 Static 과 유사한 인터페이스를 제공하는 클래스다. 이런 파사드가 프록시와 같은 역할을 한다고 한다.
+
+Cache Facade 를 통해 살펴보자.
+
 ```php
-some code block
+Cache::get('id');
 ```
 
-<br> 
+위와 같은 코드는 `Illuminate\Support\Facades` 의 `getFacadeAccessor` 메서드를 호출한다.
 
+```php
+protected static function getFacadeAccessor()
+{
+    return 'cache';
+}
+```
+
+이 메소드는 서비스 컨테이너의 바인딩 이름을 반환하는데, 이 때 컨테이너로 부터 cache 로 이름지어진 바인딩 객체를 찾아 메소드 호출을 요청한다.
+
+이 경우는 파사드로 호출한 get 메서드가 될 것이다. 이 후 정말 `Container` 클래스의 `make` 메서드 내부를 통해 `Illuminate\Cache` 가 리졸빙 되고 get 메서드를 찾아가는 것을 확인할 수 있다.
 
 
 <br><br><br>
