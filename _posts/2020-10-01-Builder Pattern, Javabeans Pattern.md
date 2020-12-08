@@ -189,4 +189,13 @@ $article = (new ArticleBuilder('title', 'content'))->setSubTitle('sub title ..')
 
 PHP 상에선 Inner class 사용이 제한 돼 setter 의 사용이 캡슐화를 위해 불가피 하지만, 불변성이 보장받는 값 객체를 이 처럼 생성 할 수 있다.
 
+<br><br>
+
++++
+
+PHP 8 부턴, `named arguments` 기능이 추가 돼, 파라미터에 많은 nullable 인자가 오더라도 더 쉽게 인자를 전달 해 줄 수 있게 되었다.
+
+*2020-12-08*
+    
+
 <br><br><br>
