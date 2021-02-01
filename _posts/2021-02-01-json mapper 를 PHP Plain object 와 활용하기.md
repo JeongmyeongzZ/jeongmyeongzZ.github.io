@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "json mapper 를 PHP Plain object 와 활용하기"
-date:   2021-01-28 00:40:12
+date:   2021-02-01 00:40:12
 ---
 
 ## 언제 사용할까 ?
@@ -30,6 +30,8 @@ date:   2021-01-28 00:40:12
 
 필자는 Http Request 객체를 사용하는 Controller 에 trait 로 해당 코드를 심었다.
 
+컨트롤러에서 요청에 대한 흐름제어뿐 아닌 리퀘스트 매핑을 추가적으로 하고 있는 듯한 느낌을 받았는데, 이를 유효성 검사를 하기 위한 Request 객체에서 하도록 하고, Request 객체를 artisan 명령어를 통해 생성할 때 관련 코드를 같이 심을 수 있는지를 알아봐야 할 것 같다.
+
 ```php
 <?php
 
@@ -48,19 +50,19 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 trait MapHttpRequests
 {
     /**
-     * @param Request $request
+     * @param ParameterBag $request
      * @param string $className
      * @return mixed|object
      * @throws ReflectionException
      */
-    public function mapHttpRequestToRequestObject(Request $request, string $className)
+    public function mapHttpRequestToRequestObject(ParameterBag $request, string $className)
     {
         try {
             $mapper = new JsonMapper();
             $mapper->bIgnoreVisibility = true;
 
             return $mapper->map(
-                new ParameterBag($request->all()),
+                $request,
                 (new ReflectionClass($className))->newInstanceWithoutConstructor()
             );
         } catch (JsonMapper_Exception $exception) {
@@ -149,15 +151,15 @@ use App\Http\Controllers\Controller;
 class SomeController extends Controller
 {
     /**
-     * @var TrackService
+     * @var SomeService
      */
-    private TrackService $service;
+    private SomeService $service;
 
     /**
      * TrackController constructor.
-     * @param TrackService $service
+     * @param SomeService $service
      */
-    public function __construct(TrackService $service)
+    public function __construct(SomeService $service)
     {
         $this->service = $service;
     }
@@ -167,12 +169,23 @@ class SomeController extends Controller
      */
     public function store(SomeRequest $request)
     {
-        $this->service->save($this->mapHttpRequestToRequestObject($request, SomeRequestObject::class));
+        $this->service->save($this->mapHttpRequestToRequestObject(new ParameterBag($request->all() + $request->route()->parameteres()), SomeRequestObject::class));
     }
 }
 
 ```
 
+때로는 request->all() 과 같이 request data 뿐아니라 route parameter, query, 부가적인 라우트 파라미터, 리퀘스트 데이터들을 통한 커스텀 값을 넘겨줄 일이 있었고, 그래서 `Symfony\Component\HttpFoundation\ParameterBag` 객체를 같이 넘겨주기로 했다.
+
+참고한 링크처럼, Request 객체만을 받아서 내부에서 parameterBag 객체를 사용하도록 해야 더 깔끔한 코드가 될 것 같은데, 이는 코드를 작성해보며 더 나은 방법을 찾아보기로 했다.
+
+<br>
+
+이렇게 비즈니스 로직을 포함한 서비스 레이어에서 라라벨 Http request 객체, request->all() 과 같은 필수값 정의와, 값의 모호함을 해결해줄 수 없는 기본 array 형태의 파라미터가 아닌 Dto 객체를 전달받아 사용하는 방법을 작성해봤다.
+
+많은 양의 데이터가 아니거나, 필수 값 정의등이 필요하지 않을 경우엔 별도의 Dto 객체를 계속해서 생성해줘야 할 지는 프로젝트를 운영하며 정리가 필요할 것 같다.
+
+이도 도메인별로 코드들이 잘 정리돼 있다면 충분히 운영가능할 사이즈가 아닐까 생각이 든다.
 
 <br><br>
 
