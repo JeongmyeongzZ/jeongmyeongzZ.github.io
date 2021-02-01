@@ -1,16 +1,16 @@
 # Site settings
-title: Jeongmyeong, Web Developer
+title: jeongmyeong zZZ
 description: >
   dotmyeom.me
 author: jeongmyeong
 email: kimbym23@gmail.com
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://jungmyungzZ.github.io" # the base hostname & protocol for your site
+url: "https://jeongmyeongzZ.github.io" # the base hostname & protocol for your site
 facebook_username: 100017805346667
 linkedin_username: jeongmyeong-kim-5549721b4
-github_username:  jungmyungzZ
+github_username:  jeongmyeongzZ
 
-disqus_shortname: jungmyung-me
+disqus_shortname: dotmyeom.me
 
 # Build settings
 include: [_pages]
