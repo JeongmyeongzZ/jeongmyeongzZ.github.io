@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "SVG 아이콘 Webfont 로 사용하기"
-date:   2020-09-20 00:40:12
+title:  "IntelliJ IDE로 .editorconfig 파일 활용하기"
+date:   2020-12-02 00:40:12
 ---
 
 ## .editorconfig
