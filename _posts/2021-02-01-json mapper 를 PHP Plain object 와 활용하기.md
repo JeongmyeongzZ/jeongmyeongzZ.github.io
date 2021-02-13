@@ -190,5 +190,5 @@ class SomeController extends Controller
 <br><br>
 
 _참고: https://ceobe.dev/laravel-popo-request-for-service-layer/_
-
+https://laravel.kr/docs/8.x/artisan#stub-customization stub  customize
 <br><br><br>
