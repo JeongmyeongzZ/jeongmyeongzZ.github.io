@@ -115,5 +115,25 @@ protected static function getFacadeAccessor()
 
 이 경우는 파사드로 호출한 get 메서드가 될 것이다. 이 후 정말 `Container` 클래스의 `make` 메서드 내부를 통해 `Illuminate\Cache` 가 리졸빙 되고 get 메서드를 찾아가는 것을 확인할 수 있다.
 
+<br><br>
+
+_참고_
+
+_https://www.brandonsavage.net/lets-talk-about-facades/_
+
+_https://stitcher.io/blog/service-locator-anti-pattern_
+
+proxy pattern ? 그것도 아니다.
+
+Facade is similar to Proxy in that both buffer a complex entity and initialize it on its own. Unlike Facade, Proxy has the same interface as its service object, which makes them interchangeable.
+
+프록시는 원본인 애를 상속하거나, 인터페이스를 통해
+사용되서, 동일한 타입 시그니쳐로 사용이 가능한데
+
+The purpose of the Proxy is to add behavior while The purpose of the Facade is to simplify, which may actually involve removing behavior.
+
+프록시의 목적은 기능 추가고
+파사드의 목적은 단순화다
+오히려 프록시랑 데코레이터면 모를까
 
 <br><br><br>
