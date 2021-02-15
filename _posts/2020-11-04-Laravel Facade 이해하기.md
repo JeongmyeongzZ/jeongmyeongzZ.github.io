@@ -135,7 +135,7 @@ Facade pattern 의 목적은 `"단순화"`이며 Proxy pattern 의 목적은 `"�
 
 <br><br>
 
-_참고
+_참고_
 - _https://www.brandonsavage.net/lets-talk-about-facades/_
 - _https://www.brandonsavage.net/lets-talk-about-facades/_
 - _https://stitcher.io/blog/service-locator-anti-pattern_
