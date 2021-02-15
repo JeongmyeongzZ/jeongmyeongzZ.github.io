@@ -1,10 +1,14 @@
 ---
 layout: post
-title:  "Laravel Facade 와 Proxy Pattern 의 이해"
+title:  "Laravel Facade 이해하기"
 date:   2020-10-20 00:40:12
 ---
 
-Laravel 에서 사용하는 `Facade` 란 용어는 실제 Facade Pattern 과는 거리가 있다. 이는 실제로 Proxy, Locator, Surrogate 등으로 불리는 게 더 정확하다고 한다.
+Laravel 에서 사용하는 `Facade` 란 용어는 PHP 커뮤니티 상에서 논란이 있었다. 실제 Facade Pattern 과는 거리가 있다는 것 이다. 
+
+요지는 Proxy, Locator, Surrogate 와 같이 불리는 게 더 정확하다는건데, 불분명한 용어를 사용함으로써 개발자를 혼란스럽게하고, 프레임워크의 가치를 떨어뜨린다는 것 이다. 
+
+그리고 라라벨에서 말하는 Facade 는 실제로 잘 설계된 Proxy pattern 이라고 말한다.
 
 `Facade` 란 단어의 의미는 `실제와는 다른 표면, 허울` 이란 뜻을 가지고 있는데, 이를 이용 해 Facade Pattern 그리고 Laravel 의 Facade 에 대해 이해해보려 한다.
 
@@ -36,6 +40,8 @@ function clientCode(A $classA)
 ```
 
 그와 같은 경우 우리는 위와 같은 간단한 예제와 같이 A 내부의 서브 클래스들에 의존적하지 않고, 내부 코드 변경 또한 `clientCode` 에 영향을 주지 않는 일종의 인터페이스를 만들어 사용을 할 수 있다.
+
+상위 시스템에서 불필요한 종속성 없이 하위 시스템을 사용할 수 있도록 하는 것이 목적이다.
 
 이제 `Facade` 란 단어와 연결해 생각해보자. 파사드 패턴은 많은 내부구조를 실제와는 다른 표현을 만들어 감싸서 편리한 인터페이스를 제공해 준다고 이해하면 쉬울 것 같다.
 
@@ -115,25 +121,25 @@ protected static function getFacadeAccessor()
 
 이 경우는 파사드로 호출한 get 메서드가 될 것이다. 이 후 정말 `Container` 클래스의 `make` 메서드 내부를 통해 `Illuminate\Cache` 가 리졸빙 되고 get 메서드를 찾아가는 것을 확인할 수 있다.
 
+<br>
+
+___
+
+Facade pattern, Proxy pattern 그리고 라라벨에서의 facade 사용에 대해 살펴봤다.
+
+Facade pattern 의 목적은 `"단순화"`이며 Proxy pattern 의 목적은 `"기능 추가"`다.
+
+라라벨에서 Facade 를 구현했을 땐 오히려 Proxy 에 대한 기능보단 간편한 인터페이스를 제공하는 목적이 크지 않았을까 생각한다.
+
+프록시와 파사드, 두 구현을 모두 목적에 맞게 설계되었다고 하긴 힘들 것 같다. 오히려 기능추가 보다는 내부 복잡성을 숨기며 사용자에게 간편한 인터페이스를 제공하는 파사드 패턴의 모습을 고려하고 설계되지 않았을까 싶다.
+
 <br><br>
 
-_참고_
-
-_https://www.brandonsavage.net/lets-talk-about-facades/_
-
-_https://stitcher.io/blog/service-locator-anti-pattern_
-
-proxy pattern ? 그것도 아니다.
-
-Facade is similar to Proxy in that both buffer a complex entity and initialize it on its own. Unlike Facade, Proxy has the same interface as its service object, which makes them interchangeable.
-
-프록시는 원본인 애를 상속하거나, 인터페이스를 통해
-사용되서, 동일한 타입 시그니쳐로 사용이 가능한데
-
-The purpose of the Proxy is to add behavior while The purpose of the Facade is to simplify, which may actually involve removing behavior.
-
-프록시의 목적은 기능 추가고
-파사드의 목적은 단순화다
-오히려 프록시랑 데코레이터면 모를까
+_참고
+- _https://www.brandonsavage.net/lets-talk-about-facades/_
+- _https://www.brandonsavage.net/lets-talk-about-facades/_
+- _https://stitcher.io/blog/service-locator-anti-pattern_
+- _https://refactoring.guru/design-patterns/facade_
+- _https://www.mysoftkey.com/design-pattern/design-pattern-proxy-versus-facade/_
 
 <br><br><br>
