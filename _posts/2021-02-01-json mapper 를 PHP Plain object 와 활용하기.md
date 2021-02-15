@@ -4,7 +4,23 @@ title:  "json mapper 를 PHP Plain object 와 활용하기"
 date:   2021-02-01 00:40:12
 ---
 
-## 언제 사용할까 ?
+## Json mapper
+
+---
+
+[json mapper](https://github.com/cweiske/jsonmapper) 는 json 데이터를 PHP Class 로 매핑해주는 편리한 패키지다.
+
+string, integer, boolean, array 와 같은 simple types 뿐 아니라 object, 다차원 배열 유형도 지원하며 기본적으로 아래와 같이 사용한다.
+
+```php 
+$mapper = new JsonMapper();
+
+$contactObject = $mapper->map($jsonContact, new Contact());
+```
+
+<br><br>
+
+## 언제 사용할까
 
 ---
 
@@ -22,15 +38,99 @@ date:   2021-02-01 00:40:12
 
 <br><br>
 
-## Json mapper
-
 ---
 
-[json mapper](https://github.com/cweiske/jsonmapper) 는 json 데이터를 PHP Class 로 매핑해주는 편리한 패키지다.
+필자는 Http Request 객체에 trait 로 해당 코드를 심었다.
 
-필자는 Http Request 객체를 사용하는 Controller 에 trait 로 해당 코드를 심었다.
+artisan 명령어로 생성되는 파일들은 라라벨의 stub 파일들을 기준으로 생성되는데, `php artisan stub:publish` 명령어를 통해 생성되는 stub 파일을 커스터마이징 할 수 있다.
 
-컨트롤러에서 요청에 대한 흐름제어뿐 아닌 리퀘스트 매핑을 추가적으로 하고 있는 듯한 느낌을 받았는데, 이를 유효성 검사를 하기 위한 Request 객체에서 하도록 하고, Request 객체를 artisan 명령어를 통해 생성할 때 관련 코드를 같이 심을 수 있는지를 알아봐야 할 것 같다.
+`/stubs` path 에 모든 stub 파일들이 생성되는데, 이 중 request 만 사용할 예정이므로 이외의 파일은 모두 삭제해도 좋다.
+
+```php
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class {{ class }} extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return false;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            //
+        ];
+    }
+}
+```
+
+첫 stub 파일은 위와같은 파일들로 구성 돼 있다. 이제 위 request stub 파일을 아래와 같이 수정해보자.
+
+```php
+<?php
+
+namespace {{ namespace }};
+
+use App\Http\Requests\MapHttpRequest;
+use Illuminate\Foundation\Http\FormRequest;
+use ReflectionException;
+
+class {{ class }} extends FormRequest
+{
+    use MapHttpRequest;
+
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return false;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            //
+        ];
+    }
+
+    /**
+     * Map with custom request object class.
+     * Change class to request object class name
+     *
+     * @return mixed|object
+     * @throws ReflectionException
+     */
+    public function toRequestObject()
+    {
+        return $this->mapHttpRequestToRequestObject($this->json(), );
+    }
+}
+```
+
+이제 `php artisan make:request` 명령어를 통해 생성된 request 객체는 위 stub 파일을 기반으로 생성 될 것 이다.
 
 ```php
 <?php
@@ -70,28 +170,62 @@ trait MapHttpRequests
         }
     }
 }
-
 ```
+
+<br>
+
+이제 작성한 코드를 기반으로 Http request 를 통해 들어온 데이터를 service layer 로 전달하는 코드를 구현해보자.
 
 ```php
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Requests;
 
-use App\Http\Requests\MapHttpRequests;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
+use App\Http\Requests\MapHttpRequest;
+use App\Requests\SomeRequest as RequestObject;
+use Illuminate\Foundation\Http\FormRequest;
+use ReflectionException;
 
-class Controller extends BaseController
+class SomeRequest extends FormRequest
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, MapHttpRequests;
+    use MapHttpRequest;
+
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return false;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'title' => 'required',
+            'body' => 'required',
+        ];
+    }
+
+    /**
+     * Map with custom request object class.
+     * Change class to request object class name
+     *
+     * @return mixed|object
+     * @throws ReflectionException
+     */
+    public function toRequestObject()
+    {
+        return $this->mapHttpRequestToRequestObject($this->json(), RequestObject::class);
+    }
 }
-
 ```
-
-그리고 Controller 에서 생성한 Dto 객체를 함께 던져주어 사용하려 했다.
 
 ```php
 <?php
@@ -145,7 +279,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\SomeRequest;
-use App\Requests\SomeRequest as SomeRequestObject;
 use App\Http\Controllers\Controller;
 
 class SomeController extends Controller
@@ -169,26 +302,28 @@ class SomeController extends Controller
      */
     public function store(SomeRequest $request)
     {
-        $this->service->save($this->mapHttpRequestToRequestObject(new ParameterBag($request->all() + $request->route()->parameteres()), SomeRequestObject::class));
+        $this->service->save($request->toRequestObject());
     }
 }
 
 ```
 
-때로는 request->all() 과 같이 request data 뿐아니라 route parameter, query, 부가적인 라우트 파라미터, 리퀘스트 데이터들을 통한 커스텀 값을 넘겨줄 일이 있었고, 그래서 `Symfony\Component\HttpFoundation\ParameterBag` 객체를 같이 넘겨주기로 했다.
+이렇게 비즈니스 로직을 포함한 서비스 레이어에서 
 
-참고한 링크처럼, Request 객체만을 받아서 내부에서 parameterBag 객체를 사용하도록 해야 더 깔끔한 코드가 될 것 같은데, 이는 코드를 작성해보며 더 나은 방법을 찾아보기로 했다.
+- `request->all()` 과 같은 필수값 정의와 값의 모호함을 해결해 줄 수 없는 기본 array 형태의 파라미터
 
-<br>
+- 그리고 Http 영역에 의존적인 Laravel Request 객체
 
-이렇게 비즈니스 로직을 포함한 서비스 레이어에서 라라벨 Http request 객체, request->all() 과 같은 필수값 정의와, 값의 모호함을 해결해줄 수 없는 기본 array 형태의 파라미터가 아닌 Dto 객체를 전달받아 사용하는 방법을 작성해봤다.
+를 사용하는 것이 아닌 Dto 객체를 전달받아 사용하는 방법을 작성해봤다.
 
 많은 양의 데이터가 아니거나, 필수 값 정의등이 필요하지 않을 경우엔 별도의 Dto 객체를 계속해서 생성해줘야 할 지는 프로젝트를 운영하며 정리가 필요할 것 같다.
 
 이도 도메인별로 코드들이 잘 정리돼 있다면 충분히 운영가능할 사이즈가 아닐까 생각이 든다.
 
-<br><br>
+<br>
 
-_참고: https://ceobe.dev/laravel-popo-request-for-service-layer/_
+_참고_
 
+- _https://ceobe.dev/laravel-popo-request-for-service-layer/_
+- _https://laravel.kr/docs/8.x/artisan#stub-customization_
 <br><br><br>
