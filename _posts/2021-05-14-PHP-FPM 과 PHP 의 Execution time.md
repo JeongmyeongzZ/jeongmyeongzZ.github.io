@@ -43,6 +43,13 @@ sleep(1);
 www.conf.in
 
 
+php -i | grep max 등과 같이 확인하면 max_excution_time 이 0 (제한없음) 으로 나오는 현상이 있는데,
+이 부분은 cli sapi 와 php-fpm 설정이 달라서 나타나는 현상.
+phpinfo(); 를 통해 확인해야 php-fpm 설정을 제대로 확인 할 수 ㅇ있다/
+
+추가 : mysql pdo driver 는 connection timeout attribute 를 지원하지 않는다.. sqlite 는 되는데 ㅠㅠ 
+
+
 <br>
 
 _참고_
