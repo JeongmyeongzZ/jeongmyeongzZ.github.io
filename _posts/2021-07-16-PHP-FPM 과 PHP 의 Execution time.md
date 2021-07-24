@@ -4,7 +4,7 @@ title:  "PHP-FPM 과 PHP 의 Execution time"
 date:   2021-07-16 00:40:12
 ---
 
-## PHP-FPM (PHP FastCGI Process Manager)?
+## PHP-FPM 이란?
 
 ---
 
@@ -21,7 +21,7 @@ CGI 는 한 Request 당 하나의 프로세스를 생성한다, 이 과정에서
 
 이를 개선하기 위해서 만들어진 게 FastCGI 란 녀석이다. 만들어진 프로세스를 재사용하며 Request를 처리한다. 이 부분에서 낭비되는 시간을 많이 절약할 수 있다. 이론상으론 3~30배의 성능 개선 효과가 있다고 얘기한다.
 
-그리고 이 FastCGI 기능을 사용할 수 있게 만들어진 게 바로 FastCGI Manage, FPM 이다.
+그리고 이 FastCGI 기능을 사용할 수 있게 만들어진 게 바로 FastCGI Manager, PHP-FPM(PHP FastCGI Process Manager) 이다.
 
 apache의 경우에는 apache용 php 모듈 (mod-php)이 존재하지만, Nginx 의 경우 이 모듈이 내장돼있지 않기 때문에 보통 Nginx + PHP-FPM 조합으로 PHP 환경을 구성한다.
 
@@ -37,6 +37,7 @@ Laravel 등으로 간단하게 Application 을 간단히 올린 후 테스트를
 _php -i | grep max 등과 같이 확인하면 max_execution_time 이 0 (제한없음) 으로 나오는 현상이 있는데, 이 부분은 cli sapi 와 php-fpm 설정이 달라서 나타나는 현상이다._
 _phpinfo(); 를 통해 더 정확한 설정 정보를 알 수 있다는 점 참고하자._
 
+<br>
 
 ## php.ini max_execution_time
 
