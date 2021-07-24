@@ -6,8 +6,8 @@ permalink: /about/
 
 <h3>Experience</h3>
 
-19.04 ~ 20.12 <br>
-Airteltour
+- Airteltour (19.04 ~ 20.12)
+- Kurly (20.04 ~ )
 
 <h3>Skill</h3>
 
