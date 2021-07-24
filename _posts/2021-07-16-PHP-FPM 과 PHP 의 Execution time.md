@@ -4,13 +4,13 @@ title:  "PHP-FPM 과 PHP 의 Execution time"
 date:   2021-07-16 00:40:12
 ---
 
-## PHP-FPM 과 PHP 의 Execution time
+## PHP-FPM (PHP FastCGI Process Manager)?
 
 ---
 
-### PHP-FPM (PHP FastCGI Process Manager)?
 
----
+![form](/assets/posts/php-fpm/nginx-php-fpm.png)
+_[출처 - binx.io](https://binx.io/blog/2021/02/26/how-to-optimize-php-performance-on-google-cloud-run/)_
 
 CGI(Common Gateway Interface)는 웹서버와 외부 프로그램을 연결해주는 표준화된 프로토콜이다.
 
@@ -28,7 +28,7 @@ apache의 경우에는 apache용 php 모듈 (mod-php)이 존재하지만, Nginx 
 
 <br>
 
-### PHP의 실행시간 조절
+## PHP의 실행시간 조절
 
 ---
 
@@ -38,7 +38,7 @@ _php -i | grep max 등과 같이 확인하면 max_execution_time 이 0 (제한�
 _phpinfo(); 를 통해 더 정확한 설정 정보를 알 수 있다는 점 참고하자._
 
 
-### php.ini max_execution_time
+## php.ini max_execution_time
 
 ---
 
@@ -62,7 +62,7 @@ while (true) {}
 
 <br>
 
-### php-fpm.d/www.conf request_terminate_timeout
+## php-fpm.d/www.conf request_terminate_timeout
 
 ---
 
@@ -72,7 +72,7 @@ process management level 의 설정으로, http 요청 시간, sleep 도 count �
 
 <br>
 
-### nginx fastcgi_read_timeout
+## nginx fastcgi_read_timeout
 
 ---
 
@@ -97,7 +97,7 @@ location ~ \.php$ {
 
 <br>
 
-_추가 : mysql pdo driver 는 connection timeout attribute 를 지원하지 않는다.. sqlite 는 되는데 ㅠㅠ_
+_추가 : PDO timeout 도 조절할 수 있을까 해서 찾아봤지만, mysql pdo driver 는 connection timeout attribute 를 지원하지 않는다. (sqlite 는 되는데 ㅠㅠ)_
 
 <br>
 
