@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Laravel 에서의 Singleton binding 그리고 Scoped singleton binding
+title:  "Laravel 에서의 Singleton binding 그리고 Scoped singleton binding"
 date:   2021-12-10 00:40:12
 ---
 
@@ -46,8 +46,7 @@ $service = app(TestService::class);
 
 $service->test(); // 000000003cc56d770000000007fa48c5
 ```
-
-<br>
+---
 
 이번 8.47 release 엔 이 Service Container 에 `Binding Scoped Singletons` 라는 기능이 추가됐다.
 
