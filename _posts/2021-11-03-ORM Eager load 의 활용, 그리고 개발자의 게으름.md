@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "ORM Eager load 의 활용, 그리고 개발자 게으름"
+title:  "ORM Eager load 의 활용, 그리고 개발자의 게으름"
 date:   2021-11-03 00:40:12
 ---
 
