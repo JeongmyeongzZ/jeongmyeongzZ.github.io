@@ -3,6 +3,7 @@
    ========================================================================== */
 
 .c-archives {
+    margin-left: 2.1rem;
     margin-bottom: 10rem;
 }
 
@@ -17,8 +18,7 @@
 }
 
 .c-archives__item {
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
+    padding: 2.5rem 0;
     border-top: 1px solid #EFF1F3;
     @media screen and (min-width: $bp__sm) {
         display: -webkit-box;
