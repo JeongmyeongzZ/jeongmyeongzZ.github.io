@@ -30,7 +30,6 @@
 .c-article__title {
     @include fs--heading-1;
     color: $c-base__02;
-    font-family: 'Nanum Myeongjo', serif;
 }
 
 .c-article__time {
@@ -49,7 +48,6 @@
 
     h2 {
         @include fs--heading-2;
-        font-family: 'Nanum Myeongjo', serif;
     }
 
     h3 {
@@ -79,14 +77,6 @@
     ul,
     ol {
         margin-left: 2.1rem;
-    }
-
-    p {
-        font-family: 'Nanum Gothic', sans-serif;
-    }
-
-    li {
-        font-family: 'Nanum Gothic', sans-serif;
     }
 }
 
