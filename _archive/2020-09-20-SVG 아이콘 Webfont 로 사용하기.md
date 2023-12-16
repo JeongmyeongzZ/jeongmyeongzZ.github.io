@@ -30,7 +30,7 @@ date:   2020-09-20 00:40:12
 
 - 애니메이션 효과를 CSS3 등을 통해 적용할 수 있다. 
 
-![vector-raster](/assets/posts/svg-webfont/vector-raster.png)
+![vector-raster](/_archive/asset/svg-webfont/vector-raster.png)
 
 _출처 https://junojunho.com/front-end/svg-icon_
 
@@ -72,7 +72,7 @@ _출처 https://junojunho.com/front-end/svg-icon_
 
 vue, react, angular 등의 환경의 경우 `/build/webfont-loader.js` 파일을 생성한다. _필자는 라라벨 환경 프로젝트에서 작업했으며, webpack.mix.js 파일에 해당 스크립트를 넣었다._
 
-![bed](/assets/posts/svg-webfont/bed.svg) 해당 파일을 사용해보자.
+![bed](/_archive/asset/svg-webfont/bed.svg) 해당 파일을 사용해보자.
 
 ```js
 const webfontsGenerator = require('webfonts-generator');
@@ -122,6 +122,6 @@ webfontsGenerator({
 
 페이지에 정상적으로 노출되는 것을 확인할 수 있다 !
 
-![bed](/assets/posts/svg-webfont/bed-result.png) 
+![bed](/_archive/asset/svg-webfont/bed-result.png) 
 
 <br><br><br>

@@ -9,7 +9,7 @@ date:   2021-07-16 00:40:12
 ---
 
 
-![form](/assets/posts/php-fpm/nginx-php-fpm.png)
+![form](/_archive/asset/php-fpm/nginx-php-fpm.png)
 _[출처 - binx.io](https://binx.io/blog/2021/02/26/how-to-optimize-php-performance-on-google-cloud-run/)_
 
 CGI(Common Gateway Interface)는 웹서버와 외부 프로그램을 연결해주는 표준화된 프로토콜이다.
