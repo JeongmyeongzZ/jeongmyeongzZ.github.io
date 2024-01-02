@@ -87,6 +87,9 @@ JFR는 Java 애플리케이션의 실행 중에 발생하는 이벤트 및 트�
 
 -XX:StartFlightRecording=duration=60s,filename=myrecording.jfr 과 같은 옵션을 추가로 활용할 수 있습니다.
 
+
+[2024-01 추가] JDK 17 에서 Deprecated 됨 
+https://bugs.openjdk.org/browse/JDK-8225312
 ---
 
 $RUN_JVM_PARAM \
