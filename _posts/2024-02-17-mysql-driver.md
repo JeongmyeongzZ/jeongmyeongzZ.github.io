@@ -46,7 +46,7 @@ class OrderService {
 
 이 문제를 겪기 전과 후에 변경 된 점은 OrderService 에 있는 `@Transactional(readOnly = true)` 구문이다.
 
-### ReadOnly 옵션에 따른 동작 방식을 파헤쳐보자
+### 먼저 JDBC connection 을 확인해보자
 
 우선 JDBC connection 을 property 로 정의하는 방식은 아래와 같다.
 
@@ -54,9 +54,53 @@ jdbc:(mysql|mariadb):[replication:|loadbalance:|sequential:|aurora:]//<hostDescr
 
 > 1.5.1 버전 이전에는 jdbc:mysql:aurora://클러스터엔드포인트:포트,리더엔드포인트:포트 이런식으로도 사용했으나, 그 뒤로는 클러스터엔드포인트만 명시하는 것을 권고
  
+![ha mode](/assets/posts/mariadb/hamode.png)
+
 이 중 replication, loadbalance, sequential, aurora 등의 옵션을 maria db connector 에선 HA mode (High availability) 라고 정의하고 있다.
 
-![ha mode](/assets/posts/mariadb/hamode.png)h
+HA Mode 에 따라 Failover 기능을 지원하는데, Aurora 는 Master 의 상태를 보고 Slave 중 하나를 Master 로 승격시키는 방식으로 동작한다.
+(그 사이에 Scale 조정 및 tier 확인등을 통한 우선순위 산정 등의 과정이 포함되지만, 생략한다.)
+
+![connection](/assets/posts/mariadb/connection1.png)
+
+문제가 발생하던 시점엔 서비스에서 ha mode 를 aurora 로 준 상태로 실행되고 있었다.
+
+<br>
+
+![Aurora Listener](/assets/posts/mariadb/auroralistener.png)
+
+이 경우 `AuroraListener` 에서 cluster endpoint 에 대한 연결 된 노드들의 endpoint 를 protocol query 로 실행해 가져오는 것을 볼 수 있다.
+
+현재 문제가 재현되는 환경에선 master 한대와 Read replica 한대가 조회 되었다.
+
+이는 실제 해당 데이터베이스에 쿼리를 직접 실행해도 확인할 수 있다.
+
+![Protocol Query](/assets/posts/mariadb/sql.png)
+
+<br>
+<br>
+
+### 그래서 ReadOnly 가 왜?
+
+Spring 에서 Transactional 을 처리하는 과정에 Transactional Annotation 에 대한 definition 을 파헤치는 부분이 있다.
+
+![DatasourceUtil](/assets/posts/mariadb/datasourceutil.png)
+
+위 코드와 같이 `DataSourceUtil` 에서 readonly 의 여부에 따라 connection 을 readOnly 속성으로 설정해주는 곳이 있다.
+
+![MasterSlavesListener](/assets/posts/mariadb/switch.png)
+
+이 경우 실제로 `MasterSlavesListener` 에서 connection 을 아까 Aurora protocol query 를 통해 받아온 read replica (slave) 의 connection 으로 전환 하는 것을 볼 수 있다.
+
+<br>
+
+DB Aurora cluster 주소와, aurora HA mode 옵션만으로 readOnly 프로퍼티가 true 인 경우, read replica 로 쿼리가 발생하게 된다.
+
+이 경우 update logic 을 통해 master 에 반영 된 데이터가 read replica 들로 동기화 되기 전에 데이터가 조회 될 수 있다는 뜻이다.
+
+
+
+---
 
 
 
