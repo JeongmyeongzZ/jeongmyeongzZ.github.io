@@ -99,9 +99,17 @@ DB Aurora cluster 주소와, aurora HA mode 옵션만으로 readOnly 프로퍼�
 이 경우 update logic 을 통해 master 에 반영 된 데이터가 read replica 들로 동기화 되기 전에 데이터가 조회 될 수 있다는 뜻이다.
 
 
-
 ---
 
+Failover 기능은 우리 서비스의 가용성을 위해 꼭 필요한 옵션이다. 
+
+오로라DB 에서 제공하는 failover 기능을 사용하기 위해 db connection 을 `jdbc:mysql:aurora:{cluster endpoint}` 와 같은 형태로 반영한 적이 있었는데, application 상에서 read replica 로 직접적인 쿼리가 발생할 수 있다는 점을 놓쳤다.
+
+무거운 쿼리를 의도적으로 read replica 로 발생시킬 수는 있겠지만, 위와 같이 의도하지 않은 방향으로 서비스가 동작 할 수 있으니, 확인이 꼭 필요하다.
+
+또한, 상위 트랜잭션이 있다면, 하위 트랜잭션이 기본적으로 상위 트랜잭션에 포함되기 때문에 이 문제를 마주쳐보지 못했을 수도 있다. 
+
+중첩 된 트랜잭션에서 하위 트랜잭션을 의도적으로 read replica 로 보내고 싶은 경우가 있다면 `REQUIRES_NEW` 와 같은 옵션으로 전파옵션을 명시하여야 한다. 
 
 
 _참고 문서_
